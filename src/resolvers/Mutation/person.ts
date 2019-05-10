@@ -22,6 +22,9 @@ export const person: Pick<
     let emailConfirmed;
     const personId = getPersonId(ctx);
     const currentInfo = await ctx.prisma.person({ id: personId });
+    if (!currentInfo) {
+      throw new AuthError();
+    }
 
     if (!email && !name && !newPassword) {
       throw new Error("Did not receive fields to update");

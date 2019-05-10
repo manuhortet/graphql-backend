@@ -5,6 +5,7 @@ import { sendPasswordReset } from "../../communications/email";
 import { sendConfirmationEmail } from "../../communications/email";
 import { MutationResolvers } from "../../generated/graphqlgen";
 import {
+  AuthError,
   checkForPwnedPassword,
   getCode,
   getPasswordHash,
@@ -79,6 +80,9 @@ export const auth: Pick<
     }
     const personId = getPersonId(ctx);
     const currentInfo = await ctx.prisma.person({ id: personId });
+    if (!currentInfo) {
+      throw new AuthError();
+    }
 
     if (confirmationCode !== currentInfo.confirmationCode) {
       throw new Error("Incorrect code");

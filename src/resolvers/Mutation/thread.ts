@@ -88,6 +88,9 @@ export const thread: Pick<
       .id();
     checkGroupMembership(ctx, groupId);
     const prevData = await ctx.prisma.thread({ id: threadId });
+    if (!prevData) {
+      throw new Error("Thread does not exist.");
+    }
     return ctx.prisma.updateThread({
       where: { id: threadId },
       data: { pinned: !prevData.pinned }
