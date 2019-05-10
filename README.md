@@ -23,19 +23,24 @@ The Prisma server and our backend server can live on different machines, or the 
 - Install TypeScript: `yarn global add typescript`
 - Clone this repo: `git clone git@github.com:Wobbly-App/graphql-backend.git`
 - `cd` into the repo and run `yarn install` to get dependencies
-- `cp example.env .env`.
-  - `NODE_ENV` is the node environment (e.g. `dev`, `production`, etc.). It's also the [stage](https://www.prisma.io/forum/t/what-is-the-purpose-of-prisma-service-and-stage-in-the-prisma-yml/4699) on the Prisma server.
-  - `ENGINE_API_KEY` is the API key for [Apollo Engine](https://engine.apollographql.com). Don't worry if you don't have this API key; you don't need it. Apollo Engine gives us statistics on production server performance but you don't need it for development.
-  - `PORT` is the port that exposes the public API.
-  - `PRISMA_ENDPOINT` is where the Prisma server lives. It's a URL of the format `http://domain:port/service`. The `service` is the name of the service. If you're running Prisma locally with docker, this should be `http://localhost:4466/wobbly`. **Make sure it does not end in a slash.**
-  - `PRISMA_SECRET` should be a long, secret string for authenticating against Prisma when using the GraphQL playground in the browser.
-  - `PRISMA_MANAGEMENT_API_SECRET`
-  - `DB_USER` and `DB_PASSWORD` are the credentials to connect to the Postgres database.
-  - `APP_SECRET` is the secret we use to sign user [JWTs](https://en.wikipedia.org/wiki/JSON_Web_Token).
+- `cp example.env .env`
 - `yarn codegen` generates a) the typed Prisma client and b) types for the front-facing schema
 - Run `docker-compose up -d` to start a local Postgres db and a Prisma server
 - `yarn prisma deploy` deploys the Prisma datamodel to the Prisma server
 - `yarn dev` runs the backend server locally.
+
+### Environment variables
+These are defined in `.env`. You shouldn't need to change them for development -- the following is for reference.
+
+- `NODE_ENV` is the node environment (e.g. `dev`, `production`, etc.). It's also the [stage](https://www.prisma.io/forum/t/what-is-the-purpose-of-prisma-service-and-stage-in-the-prisma-yml/4699) on the Prisma server.
+- `ENGINE_API_KEY` is the API key for [Apollo Engine](https://engine.apollographql.com). Don't worry if you don't have this API key; you don't need it. Apollo Engine gives us statistics on production server performance but you don't need it for development.
+- `PORT` is the port that exposes the public API.
+- `PRISMA_ENDPOINT` is where the Prisma server lives. It's a URL of the format `http://domain:port/service`. The `service` is the name of the service. If you're running Prisma locally with docker, this should be `http://localhost:4466/wobbly`. **Make sure it does not end in a slash.**
+- `PRISMA_SECRET` should be a long, secret string for authenticating against Prisma when using the GraphQL playground in the browser.
+- `PRISMA_MANAGEMENT_API_SECRET`
+- `DB_USER` and `DB_PASSWORD` are the credentials to connect to the Postgres database.
+- `APP_SECRET` is the secret we use to sign user [JWTs](https://en.wikipedia.org/wiki/JSON_Web_Token).
+
 
 ## Development workflows
 
