@@ -16,7 +16,7 @@ after_success:
   - codecov
 deploy:
   provider: script
-  script: yarn apollo service:push --tag=develop
+  script: apollo service:push --tag=develop
   on:
     branch: develop
 cache:
