@@ -18,7 +18,8 @@ The Prisma server and our backend server can live on different machines, or the 
 ## 💻 From 0 to Wobbly
 - Install [node.js](https://nodejs.org/en/) version 10.
 - [Install yarn](https://yarnpkg.com/en/docs/install). Yarn is the package manager we use.
-- Install [Docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/)
+- Install [Docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/).
+  - If you're on Linux, also run through the [Linux postinstall steps](https://docs.docker.com/install/linux/linux-postinstall/).
 - Install TypeScript: `yarn global add typescript`
 - Clone this repo: `git clone git@github.com:Wobbly-App/graphql-backend.git`
 - `cd` into the repo and run `yarn install` to get dependencies
