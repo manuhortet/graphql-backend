@@ -15,16 +15,13 @@ Instead, we use [Apollo Server](https://github.com/apollographql/apollo-server) 
 
 The Prisma server and our backend server can live on different machines, or the same.
 
-## Getting started
-
-### Requirements
-
-- TypeScript
-- Docker
-- docker-compose
-
-### Steps
-
+## 💻 From 0 to Wobbly
+- Install [node.js](https://nodejs.org/en/) version 10.
+- [Install yarn](https://yarnpkg.com/en/docs/install). Yarn is the package manager we use.
+- Install [Docker](https://docs.docker.com/install/) and [docker-compose](https://docs.docker.com/compose/install/)
+- Install TypeScript: `yarn global add typescript`
+- Clone this repo: `git clone git@github.com:Wobbly-App/graphql-backend.git`
+- `cd` into the repo and run `yarn install` to get dependencies
 - `cp example.env .env`.
   - `NODE_ENV` is the node environment (e.g. `dev`, `production`, etc.). It's also the [stage](https://www.prisma.io/forum/t/what-is-the-purpose-of-prisma-service-and-stage-in-the-prisma-yml/4699) on the Prisma server.
   - `ENGINE_API_KEY` is the API key for [Apollo Engine](https://engine.apollographql.com). Don't worry if you don't have this API key; you don't need it. Apollo Engine gives us statistics on production server performance but you don't need it for development.
@@ -35,10 +32,7 @@ The Prisma server and our backend server can live on different machines, or the 
   - `DB_USER` and `DB_PASSWORD` are the credentials to connect to the Postgres database.
   - `APP_SECRET` is the secret we use to sign user [JWTs](https://en.wikipedia.org/wiki/JSON_Web_Token).
 - `yarn codegen` generates a) the typed Prisma client and b) types for the front-facing schema
-- You have two options for running the Prisma server:
-  - If you want to get started quickly, run `yarn prisma init` to set up a remote Prisma demo server and set it as your `PRISMA_ENDPOINT`.
-  - If you want to run a local Prisma server, e.g. if you're offline:
-    - `docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d` starts a Postgres db and a Prisma server.
+- Run `docker-compose up -d` to start a local Postgres db and a Prisma server
 - `yarn prisma deploy` deploys the Prisma datamodel to the Prisma server
 - `yarn dev` runs the backend server locally.
 
