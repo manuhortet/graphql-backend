@@ -28,6 +28,7 @@ The Prisma server and our backend server can live on different machines, or the 
 - Run `docker-compose up -d` to start a local Postgres db and a Prisma server
 - `yarn prisma deploy` deploys the Prisma datamodel to the Prisma server
 - `yarn dev` runs the backend server locally.
+- Running into issues? See the [dev environment setup](https://wiki.wobbly.app/index.php/Development_environment_setup) page on our wiki.
 
 ### Environment variables
 These are defined in `.env`. You shouldn't need to change them for development -- the following is for reference.
