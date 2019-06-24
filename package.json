@@ -79,7 +79,7 @@
     "husky": "^2.5.0",
     "jest": "^24.8.0",
     "lint-staged": "^8.2.1",
-    "nodemon": "1.18.11",
+    "nodemon": "1.19.1",
     "prettier": "^1.18.2",
     "prisma": "1.32.2",
     "rimraf": "2.6.3",
