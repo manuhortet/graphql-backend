@@ -1,48 +1,54 @@
 type Person {
-    id: ID! @unique
+    id: ID! @id
     email: String! @unique
-    createdAt: DateTime!
+    createdAt: DateTime! @createdAt
     password: String!
     name: String!
     confirmationCode: String
     emailConfirmed: Boolean!
     passwordResetCode: String
     resetCodeValidUntil: DateTime
-    groups: [Group!]
-    pushTokens: [PushToken!] @relation(name: "PushTokens" onDelete: CASCADE)
+    groups: [Group]
+    pushTokens: [PushToken] @relation(name: "PushTokens")
+    updatedAt: DateTime! @updatedAt
 }
 
 # This is a separate model so that we can delete a given push token without needing to know the 
 # person it belongs to. This is useful if e.g. we start getting errors because a given token is no longer valid.
 type PushToken {
-    id: ID! @unique
+    id: ID! @id
     person: Person! @relation(name: "PushTokens")
     token: String! @unique
+    createdAt: DateTime! @createdAt
+    updatedAt: DateTime! @updatedAt
 }
 
 type Group {
-    id: ID! @unique
+    id: ID! @id
     name: String! @unique
-    createdAt: DateTime!
+    createdAt: DateTime! @createdAt
     description: String
-    members: [Person!]
-    threads: [Thread!]
+    members: [Person]
+    threads: [Thread]
+    updatedAt: DateTime! @updatedAt
 }
 
 type Thread {
-    id: ID! @unique
-    createdAt: DateTime!
+    id: ID! @id
+    createdAt: DateTime! @createdAt
     title: String!
-    posts: [Post!]!
-    group: Group!
+    posts: [Post]
+    group: Group! @relation(link: INLINE)
     pinned: Boolean!
+    updatedAt: DateTime! @updatedAt
 }
 
 type Post {
-    id: ID! @unique
-    createdAt: DateTime!
-    author: Person!
+    id: ID! @id
+    createdAt: DateTime! @createdAt
+    author: Person! @relation(link: INLINE)
     content: String!
-    thread: Thread!
+    thread: Thread! @relation(link: INLINE)
     firstPost: Boolean!  # used by subscriptions to distinguish new threads from new posts
+    updatedAt: DateTime! @updatedAt
 }

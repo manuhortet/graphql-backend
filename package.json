@@ -57,7 +57,7 @@
     "kue": "^0.11.6",
     "lodash": "^4.17.11",
     "nodemailer": "^6.1.1",
-    "prisma-client-lib": "^1.30.4"
+    "prisma-client-lib": "^1.34.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "2.4.2",
@@ -81,7 +81,7 @@
     "lint-staged": "^8.2.1",
     "nodemon": "1.19.1",
     "prettier": "^1.18.2",
-    "prisma": "1.32.2",
+    "prisma": "1.34.0",
     "rimraf": "2.6.3",
     "ts-jest": "^24.0.2",
     "ts-node": "8.1.0",
