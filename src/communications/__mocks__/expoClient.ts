@@ -5,8 +5,9 @@ const ticketIdToToken: { [ticketId: string]: string } = {};
 
 export const sendNotifications = async (messages: ExpoPushMessage[]): Promise<ExpoPushTicket[]> =>
   new Promise(resolve => {
+    // TODO: also write tests for failing notifications
     setTimeout(() => {
-      const tickets = messages.map(msg => ({ id: `ticketIdTo${msg.to}` }));
+      const tickets = messages.map(msg => ({ id: `ticketIdTo${msg.to}`, status: "ok" as "ok" }));
       for (let i = 0; i < tickets.length; i++) {
         const ticketId = tickets[i].id;
         const notification: ExpoPushMessage = messages[i];
