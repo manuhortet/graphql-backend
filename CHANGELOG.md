@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Setup [Danger](https://danger.systems/js/)
+- Handle duplicate push tokens in `addPushToken` endpoint
 
 ## [0.0.1-alpha.1] - 2019-04-11
 ### Added

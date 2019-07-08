@@ -2,6 +2,7 @@ import * as bcrypt from "bcryptjs";
 
 import { sendConfirmationEmail } from "../../communications/email";
 import { MutationResolvers } from "../../generated/graphqlgen";
+import { Person } from "../../generated/prisma-client";
 import {
   AuthError,
   checkForPwnedPassword,
@@ -91,6 +92,25 @@ export const person: Pick<
 
   addPushToken: async (parent, { token }, ctx) => {
     const personId = getPersonId(ctx);
+
+    // Check if the token exists already
+    const tokenExists = await ctx.prisma.$exists.pushToken({ token });
+    if (tokenExists) {
+      // If it does, verify that it matches the current person
+      const tokenIsAffiliated = await ctx.prisma.$exists.person({
+        id: personId,
+        pushTokens_some: { token }
+      });
+      if (tokenIsAffiliated) {
+        // Do nothing
+        return ctx.prisma.person({ id: personId }) as Promise<Person>;
+      } else {
+        // Throw an error -- don't allow people to modify tokens belonging to another account
+        throw new AuthError();
+      }
+    }
+
+    // The token does not exist already; create it.
     return ctx.prisma.updatePerson({
       where: {
         id: personId
@@ -107,27 +127,24 @@ export const person: Pick<
 
   deletePushToken: async (parent, { token }, ctx) => {
     const personId = getPersonId(ctx);
-    if (
-      !ctx.prisma.$exists.person({
-        id_not: personId,
-        pushTokens_some: { token }
-      })
-    ) {
-      throw new Error(`Token ${token} not affiliated with user.`);
-    }
-    try {
-      await ctx.prisma.deletePushToken({ token });
-    } catch {
+    const tokenExistsAndAffiliated = await ctx.prisma.$exists.person({
+      id: personId,
+      pushTokens_some: { token }
+    });
+
+    if (!tokenExistsAndAffiliated) {
       return {
         id: token,
         success: false,
-        message: "Failed to delete token"
+        message: "Failed to delete token."
       };
     }
+
+    await ctx.prisma.deletePushToken({ token });
     return {
       id: token,
       success: true,
-      message: "Push token deleted"
+      message: "Push token deleted."
     };
   }
 };
