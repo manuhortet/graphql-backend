@@ -1,6 +1,6 @@
 import cliTruncate from "cli-truncate";
 import { ExpoPushMessage } from "expo-server-sdk";
-import kue from "kue";
+import kue, { DoneCallback, Job } from "kue";
 
 import { prisma } from "../generated/prisma-client";
 
@@ -12,7 +12,7 @@ export const notificationsQueue = kue.createQueue({
 // https://github.com/Automattic/kue#unstable-redis-connections
 notificationsQueue.watchStuckJobs(5000);
 
-notificationsQueue.process("notificationChunk", async (job, done) => {
+notificationsQueue.process("notificationChunk", async (job: Job, done: DoneCallback) => {
   await expoClient.sendNotifications(job.data).then(tickets => {
     // Delay the ticket 5 minutes -- it can take Expo a while to deliver push notifications when the servers are busy
     // (up to 30 mins)
@@ -27,7 +27,7 @@ notificationsQueue.process("notificationChunk", async (job, done) => {
   done();
 });
 
-notificationsQueue.process("ticketChunk", async (job, done) => {
+notificationsQueue.process("ticketChunk", async (job: Job, done: DoneCallback) => {
   await expoClient.processReceipts(job.data.map((c: any) => c.id));
   done();
 });
