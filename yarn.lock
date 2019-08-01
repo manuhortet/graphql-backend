@@ -480,10 +480,12 @@
   dependencies:
     "@types/node" "*"
 
-"@types/cli-truncate@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@types/cli-truncate/-/cli-truncate-1.1.0.tgz#c966b1f4755acc087aa93d15148b2b13b297a9cf"
-  integrity sha512-8Di+NY9OA4iavrSDYtX6krxTOFS1Onypx5q4nvZB/UjUmor6cxNSRVAq4CfDoWDCiUmd8gBlvu48gHKBIruNUA==
+"@types/cli-truncate@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/cli-truncate/-/cli-truncate-2.0.0.tgz#3d9adbe338a30e0b67d00381102f294c097d9649"
+  integrity sha512-a0pStG4Yt/Si9+XwptSk6j7Lsyh0ky5nUAaKpP+J4DryKYBOcFlSSbm1c0blCXVvLbcLp96b5XER+czZoGh1Xg==
+  dependencies:
+    cli-truncate "*"
 
 "@types/concat-stream@^1.6.0":
   version "1.6.0"
@@ -1778,20 +1780,20 @@ cli-table@^0.3.1:
   dependencies:
     colors "1.0.3"
 
-cli-truncate@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/cli-truncate/-/cli-truncate-0.2.1.tgz#9f15cfbb0705005369216c626ac7d05ab90dd574"
-  dependencies:
-    slice-ansi "0.0.4"
-    string-width "^1.0.1"
-
-cli-truncate@^2.0.0:
+cli-truncate@*, cli-truncate@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/cli-truncate/-/cli-truncate-2.0.0.tgz#68ff6aaa53b203b52ad89b8b1a80f1f61ad1e1d5"
   integrity sha512-C4hp+8GCIFVsUUiXcw+ce+7wexVWImw8rQrgMBFsqerx9LvvcGlwm6sMjQYAEmV/Xb87xc1b5Ttx505MSpZVqg==
   dependencies:
     slice-ansi "^2.1.0"
     string-width "^4.1.0"
+
+cli-truncate@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/cli-truncate/-/cli-truncate-0.2.1.tgz#9f15cfbb0705005369216c626ac7d05ab90dd574"
+  dependencies:
+    slice-ansi "0.0.4"
+    string-width "^1.0.1"
 
 cli-width@^2.0.0:
   version "2.2.0"
