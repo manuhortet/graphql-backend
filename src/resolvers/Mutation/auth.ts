@@ -1,19 +1,23 @@
-import * as bcrypt from "bcryptjs";
-import * as jwt from "jsonwebtoken";
+import { compare } from 'bcryptjs';
+import { sign } from 'jsonwebtoken';
+
+import {
+  AuthError,
+  InvalidLoginError,
+  MissingFieldError,
+} from '../../errors';
+
+import {
+  isPwned,
+  getCode,
+  getPasswordHash,
+  getPersonId,
+  isValidatedPerson,
+} from "../../utils";
 
 import { sendPasswordReset } from "../../communications/email";
 import { sendConfirmationEmail } from "../../communications/email";
 import { MutationResolvers } from "../../generated/graphqlgen";
-import {
-  AuthError,
-  checkForPwnedPassword,
-  getCode,
-  getPasswordHash,
-  getPersonId,
-  InvalidLoginError,
-  MissingFieldError,
-  validatePersonFields
-} from "../../utils";
 
 export const RESET_CODE_LIFESPAN = 1000 * 60 * 10; // 10 minutes
 
@@ -26,8 +30,8 @@ export const auth: Pick<
       throw new Error("Server authentication error");
     }
 
-    validatePersonFields(email, name, password);
-    await checkForPwnedPassword(password);
+    isValidatedPerson(email, name, password);
+    await isPwned(password);
     if (await ctx.prisma.$exists.person({ email })) {
       throw new Error("Email unavailable");
     }
@@ -42,7 +46,7 @@ export const auth: Pick<
       password: hashedPassword
     });
 
-    const token = jwt.sign({ personId: person.id }, process.env.APP_SECRET);
+    const token = sign({ personId: person.id }, process.env.APP_SECRET);
     if (process.env.NODE_ENV !== "dev") {
       sendConfirmationEmail(email, confirmationCode);
     }
@@ -63,13 +67,13 @@ export const auth: Pick<
       throw new InvalidLoginError();
     }
 
-    const valid = await bcrypt.compare(password, person.password);
+    const valid = await compare(password, person.password);
     if (!valid) {
       throw new InvalidLoginError();
     }
 
     return {
-      token: jwt.sign({ personId: person.id }, process.env.APP_SECRET),
+      token: sign({ personId: person.id }, process.env.APP_SECRET),
       person
     };
   },
@@ -152,7 +156,7 @@ export const auth: Pick<
       throw new Error("Incorrect code");
     }
 
-    await checkForPwnedPassword(newPassword);
+    await isPwned(newPassword);
     const hashedPassword = await getPasswordHash(newPassword);
 
     await ctx.prisma.updatePerson({
@@ -169,7 +173,7 @@ export const auth: Pick<
     });
 
     return {
-      token: jwt.sign({ personId: person.id }, process.env.APP_SECRET),
+      token: sign({ personId: person.id }, process.env.APP_SECRET),
       person
     };
   }
