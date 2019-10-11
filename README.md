@@ -7,7 +7,7 @@ The GraphQL backend server for [Wobbly](https://wobbly.app), written in TypeScri
 
 ## Structure
 
-![img](diagram.png)
+![img](https://i.ibb.co/XWR6Htw/diagram.png)
 
 [Prisma](https://www.prisma.io/) is a GraphQL ORM ([object-relational mapping](https://en.wikipedia.org/wiki/Object-relational_mapping)). It gives us a way to interact with the raw data in our database through GraphQL -- but note that this is not the same GraphQL API that is exposed to front-end clients. Our prisma code lives in the [`prisma/` directory](./prisma/). The [Prisma datamodel](./prisma/datamodel.prisma) defines the tables in our database.
 
