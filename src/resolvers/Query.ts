@@ -1,6 +1,6 @@
 import { QueryResolvers } from "../generated/graphqlgen";
 import { GroupSearchResponse } from "../types";
-import { isValidPerson, getPersonId } from "../utils";
+import { getPersonId, isValidatedPerson } from "../utils";
 
 export const Query: QueryResolvers.Type = {
   ...QueryResolvers.defaultResolvers,
@@ -16,7 +16,7 @@ export const Query: QueryResolvers.Type = {
     return ctx.prisma.person({ id });
   },
   searchGroups: async (parent, { searchQuery }, ctx) => {
-    await isValidPerson(ctx);
+    await isValidatedPerson(ctx);
     // TODO: handle languages other than english!
     // TODO: paginate, don't limit number of results
     const stage = process.env.NODE_ENV;

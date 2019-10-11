@@ -1,8 +1,7 @@
-import { getPersonId } from '.';
-
 import { AuthError } from '../errors'
 import { IContext } from "../types";
 
+import { getPersonId } from '.';
 
 export async function isValidatedPerson(ctx: IContext) {
   const personId = getPersonId(ctx);

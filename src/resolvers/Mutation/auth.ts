@@ -12,7 +12,7 @@ import {
   getCode,
   getPasswordHash,
   getPersonId,
-  isValidatedPerson,
+  isValidPerson,
 } from "../../utils";
 
 import { sendPasswordReset } from "../../communications/email";
@@ -30,7 +30,7 @@ export const auth: Pick<
       throw new Error("Server authentication error");
     }
 
-    isValidatedPerson(email, name, password);
+    isValidPerson(email, name, password);
     await isPwned(password);
     if (await ctx.prisma.$exists.person({ email })) {
       throw new Error("Email unavailable");

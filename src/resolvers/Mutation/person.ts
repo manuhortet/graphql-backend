@@ -10,7 +10,7 @@ import {
   getCode,
   getPasswordHash,
   getPersonId,
-  isValidatedPerson,
+  isValidPerson,
 } from "../../utils";
 
 export const person: Pick<
@@ -33,7 +33,7 @@ export const person: Pick<
 
     // in case we did not receive a field to validate, pass a dummy value that will pass validation.
     // this is so we can use the same validator in the login and signup resolvers.
-    isValidatedPerson(email || "dummy@dummy.com", name || "dummy name", newPassword || "dummy password");
+    isValidPerson(email || "dummy@dummy.com", name || "dummy name", newPassword || "dummy password");
 
     const valid = oldPassword && (await compare(oldPassword, currentInfo.password));
     if (!valid) {

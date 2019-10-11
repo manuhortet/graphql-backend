@@ -1,5 +1,7 @@
 import * as jwt from "jsonwebtoken";
 
+import { AuthError } from '../errors'
+import { IContext } from '../types';
 
 export function getPersonIdFromToken(token: string) {
   if (process.env.APP_SECRET) {
