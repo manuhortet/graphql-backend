@@ -6,7 +6,9 @@ import { stopNotificationsQueueAsync } from "./communications/notifications";
 import { prisma } from "./generated/prisma-client";
 import resolvers from "./resolvers";
 import { IWebSocketContext } from "./types";
-import { AuthError, getPersonIdFromToken, GraphQLRateLimit } from "./utils";
+import { AuthError } from './errors'
+
+import { getPersonIdFromToken, graphQLRateLimit } from "./utils";
 
 export const pubsub = new PubSub();
 export const PORT = process.env.NODE_ENV === "test" ? 4001 : parseInt(process.env.PORT || "4000", 10);
@@ -37,7 +39,7 @@ const server = new ApolloServer({
   playground,
   introspection: true,
   schemaDirectives: {
-    rateLimit: GraphQLRateLimit
+    rateLimit: graphQLRateLimit
   },
   subscriptions: {
     path: "/ws",

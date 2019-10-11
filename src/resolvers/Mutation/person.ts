@@ -1,16 +1,16 @@
-import * as bcrypt from "bcryptjs";
+import { compare } from 'bcryptjs';
 
 import { sendConfirmationEmail } from "../../communications/email";
 import { MutationResolvers } from "../../generated/graphqlgen";
 import { Person } from "../../generated/prisma-client";
+
+import { AuthError, WrongPasswordError } from '../../errors';
 import {
-  AuthError,
-  checkForPwnedPassword,
+  isPwned,
   getCode,
   getPasswordHash,
   getPersonId,
-  InvalidPasswordError,
-  validatePersonFields
+  isValidatedPerson,
 } from "../../utils";
 
 export const person: Pick<
@@ -33,15 +33,15 @@ export const person: Pick<
 
     // in case we did not receive a field to validate, pass a dummy value that will pass validation.
     // this is so we can use the same validator in the login and signup resolvers.
-    validatePersonFields(email || "dummy@dummy.com", name || "dummy name", newPassword || "dummy password");
+    isValidatedPerson(email || "dummy@dummy.com", name || "dummy name", newPassword || "dummy password");
 
-    const valid = oldPassword && (await bcrypt.compare(oldPassword, currentInfo.password));
+    const valid = oldPassword && (await compare(oldPassword, currentInfo.password));
     if (!valid) {
-      throw new InvalidPasswordError();
+      throw new WrongPasswordError();
     }
 
     if (newPassword) {
-      await checkForPwnedPassword(newPassword);
+      await isPwned(newPassword);
       hash = await getPasswordHash(newPassword);
     }
 
@@ -77,7 +77,7 @@ export const person: Pick<
     }
     const personId = getPersonId(ctx);
     const currentPassword = await ctx.prisma.person({ id: personId }).password();
-    const valid = await bcrypt.compare(password, currentPassword);
+    const valid = await compare(password, currentPassword);
     if (!valid) {
       throw new AuthError();
     }
