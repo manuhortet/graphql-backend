@@ -8,11 +8,11 @@ import {
 } from '../../errors';
 
 import {
-  isPwned,
+  checkPasswordSecurity,
   getCode,
   getPasswordHash,
   getPersonId,
-  isValidPerson,
+  validatePersonFields,
 } from "../../utils";
 
 import { sendPasswordReset } from "../../communications/email";
@@ -30,8 +30,8 @@ export const auth: Pick<
       throw new Error("Server authentication error");
     }
 
-    isValidPerson(email, name, password);
-    await isPwned(password);
+    validatePersonFields(email, name, password);
+    await checkPasswordSecurity(password);
     if (await ctx.prisma.$exists.person({ email })) {
       throw new Error("Email unavailable");
     }
@@ -156,7 +156,7 @@ export const auth: Pick<
       throw new Error("Incorrect code");
     }
 
-    await isPwned(newPassword);
+    await checkPasswordSecurity(newPassword);
     const hashedPassword = await getPasswordHash(newPassword);
 
     await ctx.prisma.updatePerson({

@@ -1,5 +1,5 @@
 import { MutationResolvers } from "../../generated/graphqlgen";
-import { isMember, getPersonId } from "../../utils";
+import { validateMember, getPersonId } from "../../utils";
 
 export const group: Pick<MutationResolvers.Type, "createGroup" | "updateGroup" | "joinGroup" | "leaveGroup"> = {
   createGroup: async (parent, { name, description }, ctx, info) => {
@@ -37,7 +37,7 @@ export const group: Pick<MutationResolvers.Type, "createGroup" | "updateGroup" |
 
   updateGroup: async (parent, { groupId, name, description }, ctx) => {
     const personId = getPersonId(ctx);
-    await isMember(ctx, groupId);
+    await validateMember(ctx, groupId);
 
     if (!name) {
       throw new Error("Cannot unset group name.");
@@ -70,7 +70,7 @@ export const group: Pick<MutationResolvers.Type, "createGroup" | "updateGroup" |
 
   leaveGroup: async (parent, { groupId }, ctx, info) => {
     const personId = getPersonId(ctx);
-    await isMember(ctx, groupId);
+    await validateMember(ctx, groupId);
 
     const leftGroup = await ctx.prisma.updateGroup({
       where: { id: groupId },

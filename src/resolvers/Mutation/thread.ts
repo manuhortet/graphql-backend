@@ -1,7 +1,7 @@
 import { sendPostNotificationsAsync } from "../../communications/notifications";
 import { MutationResolvers } from "../../generated/graphqlgen";
 
-import { isMember, getPersonId } from "../../utils";
+import { validateMember, getPersonId } from "../../utils";
 
 export const thread: Pick<
   MutationResolvers.Type,
@@ -9,7 +9,7 @@ export const thread: Pick<
 > = {
   createThread: async (parent, { groupId, title, content }, ctx, info) => {
     const personId = getPersonId(ctx);
-    await isMember(ctx, groupId);
+    await validateMember(ctx, groupId);
 
     const newThread = await ctx.prisma.createThread({
       title,
@@ -51,7 +51,7 @@ export const thread: Pick<
       })
       .group()
       .id();
-    await isMember(ctx, groupId);
+    await validateMember(ctx, groupId);
     return await ctx.prisma.updateThread({
       where: {
         id: threadId
@@ -69,7 +69,7 @@ export const thread: Pick<
       })
       .group()
       .id();
-    await isMember(ctx, groupId);
+    await validateMember(ctx, groupId);
     await ctx.prisma.deleteThread({
       id: threadId
     });
@@ -87,7 +87,7 @@ export const thread: Pick<
       })
       .group()
       .id();
-    isMember(ctx, groupId);
+    validateMember(ctx, groupId);
     const prevData = await ctx.prisma.thread({ id: threadId });
     if (!prevData) {
       throw new Error("Thread does not exist.");

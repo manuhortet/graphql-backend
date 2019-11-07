@@ -3,7 +3,7 @@ import { IContext } from "../types";
 
 import { getPersonId } from '.';
 
-export async function isValidatedPerson(ctx: IContext) {
+export async function checkPersonExists(ctx: IContext) {
   const personId = getPersonId(ctx);
   const personExists = await ctx.prisma.$exists.person({
     id: personId

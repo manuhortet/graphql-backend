@@ -1,7 +1,7 @@
 import * as Joi from 'joi';
 
 
-export function isValidPerson(email: string, name: string, password: string) {
+export function validatePersonFields(email: string, name: string, password: string) {
   const schema = Joi.object().keys({
     email: Joi.string()
       .email({ minDomainAtoms: 2 })

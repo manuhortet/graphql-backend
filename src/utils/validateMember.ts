@@ -1,12 +1,12 @@
 import { AuthError } from '../errors'
 import { IContext } from '../types';
-import { getPersonId } from '../utils';
+import { getPersonId } from '.';
 
 
 /* Verifies that the user is a member of the group with `groupId`.
  * If not, throws an `AuthError`. */
 
-export async function isMember(ctx: IContext, groupId: string) {
+export async function validateMember(ctx: IContext, groupId: string) {
   const personId = getPersonId(ctx);
   const isMember = await ctx.prisma.$exists.group({
     id: groupId,

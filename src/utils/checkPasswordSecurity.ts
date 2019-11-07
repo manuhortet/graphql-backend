@@ -11,7 +11,7 @@ import { inflect } from 'inflection';
  * See more: https://haveibeenpwned.com/API/v2#PwnedPasswords
  * @param password the password to check
  */
-export async function isPwned(password: string) {
+export async function checkPasswordSecurity(password: string) {
   const hasher = createHash("sha1");
   hasher.update(password);
   const hash = hasher.digest("hex");

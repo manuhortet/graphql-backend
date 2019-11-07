@@ -6,11 +6,11 @@ import { Person } from "../../generated/prisma-client";
 
 import { AuthError, WrongPasswordError } from '../../errors';
 import {
-  isPwned,
+  checkPasswordSecurity,
   getCode,
   getPasswordHash,
   getPersonId,
-  isValidPerson,
+  validatePersonFields,
 } from "../../utils";
 
 export const person: Pick<
@@ -33,7 +33,7 @@ export const person: Pick<
 
     // in case we did not receive a field to validate, pass a dummy value that will pass validation.
     // this is so we can use the same validator in the login and signup resolvers.
-    isValidPerson(email || "dummy@dummy.com", name || "dummy name", newPassword || "dummy password");
+    validatePersonFields(email || "dummy@dummy.com", name || "dummy name", newPassword || "dummy password");
 
     const valid = oldPassword && (await compare(oldPassword, currentInfo.password));
     if (!valid) {
@@ -41,7 +41,7 @@ export const person: Pick<
     }
 
     if (newPassword) {
-      await isPwned(newPassword);
+      await checkPasswordSecurity(newPassword);
       hash = await getPasswordHash(newPassword);
     }
 
