@@ -46,7 +46,7 @@
     "parser": "typescript"
   },
   "dependencies": {
-    "apollo-server": "^2.6.7",
+    "apollo-server": "^2.9.4",
     "bcryptjs": "2.4.3",
     "cli-truncate": "^2.0.0",
     "expo-server-sdk": "^3.3.0",
