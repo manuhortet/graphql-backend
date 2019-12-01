@@ -66,7 +66,7 @@
     "@types/inflection": "^1.5.28",
     "@types/jest": "^24.0.16",
     "@types/joi": "^14.3.3",
-    "@types/jsonwebtoken": "^8.3.3",
+    "@types/jsonwebtoken": "^8.3.5",
     "@types/kue": "^0.11.13",
     "@types/lodash": "^4.14.135",
     "@types/node": "^12.12.7",
